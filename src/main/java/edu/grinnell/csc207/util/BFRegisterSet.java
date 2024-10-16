@@ -50,10 +50,9 @@ public class BFRegisterSet {
     public void store(char register, BigFraction val) {
         int address = letter2int(register);
 
-
         this.fullRegister[address] = val;
         return;
-    }
+    }//store(register, val)
 
     /**
      * used to get a value from a particular register address

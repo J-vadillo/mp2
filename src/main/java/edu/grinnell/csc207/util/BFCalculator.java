@@ -14,7 +14,7 @@ public class BFCalculator {
     // these are supposed to be calculators which have objects so we must have an
     // initializer
     public BFCalculator() {
-        last = new BigFraction(0, 0);
+        last = new BigFraction(0, 1);
     } // BigFraction(BigInteger, BigInteger)
 
     public BFCalculator(BigFraction startVal) {
@@ -81,7 +81,7 @@ public class BFCalculator {
      * clears the calculator and sets last to 0/0
      */
     public void clear(){
-        this.last = new BigFraction(0,0);
+        this.last = new BigFraction(0,1);
         return;
     }
 } // end of class

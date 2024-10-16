@@ -90,11 +90,18 @@ public class BigFraction {
      *            The fraction in string form
      */
     public BigFraction(String str) {
-        int split = str.indexOf("/");
-        this.num = new BigInteger(str.substring(0, split));
-        this.denom = new BigInteger(str.substring(split + 1));
-        this.simplify();
-    } // BigFraction
+        if (str.contains("/")){
+            int split = str.indexOf("/");
+            this.num = new BigInteger(str.substring(0, split));
+            this.denom = new BigInteger(str.substring(split + 1));  
+        } // if a / existrs, break up the string and handle both halves independently
+        else{
+            this.num = new BigInteger(str);
+            this.denom = BigInteger.valueOf(1);
+        }// if it is handed in the method of just an integer, treat it like being handed a single Big Int
+
+        this.simplify();//simplify the given fraction
+    } // BigFraction(str)
 
     // +---------+------------------------------------------------------
     // | Methods |
@@ -117,14 +124,14 @@ public class BigFraction {
     public void simplify() {
         BigInteger newNum = this.num;
         BigInteger newDenom = this.denom;
-        BigInteger commonMod = newNum.gcd(newDenom);
+        BigInteger commonMod = newNum.gcd(newDenom); // find the greatest common divisor of the numerator and denominator
         if (commonMod.intValue() != 0) {
             newNum = newNum.divide(commonMod);
             newDenom = newDenom.divide(commonMod);
         } else {
             newNum = new BigInteger("0");
-            newDenom = new BigInteger("0");
-        }
+            newDenom = new BigInteger("1");
+        }//if your get a meaningful value out of common mod (ie 0 isnt in the denominator), divide both by two otherwise, set to 0
 
         this.num = newNum;
         this.denom = newDenom;
@@ -166,7 +173,7 @@ public class BigFraction {
         // denominator and addend's denominator
         resultDenominator = this.denom.multiply(subtracted.denom);
         // The numerator is more complicated
-        resultNumerator = (this.num.multiply(subtracted.denom)).subtract(subtracted.num.multiply(subtracted.denom));
+        resultNumerator = (this.num.multiply(subtracted.denom)).subtract(subtracted.num.multiply(this.denom));
 
         // Return the computed value
         return new BigFraction(resultNumerator, resultDenominator);
@@ -185,7 +192,7 @@ public class BigFraction {
         BigInteger resultDenominator;
 
         resultDenominator = this.denom.multiply(otherFraction.denom);
-        resultNumerator = this.denom.multiply(otherFraction.num);
+        resultNumerator = this.num.multiply(otherFraction.num);
 
         return new BigFraction(resultNumerator, resultDenominator);
     }// multiply(BigFraction)
@@ -202,7 +209,7 @@ public class BigFraction {
         BigInteger resultDenominator;
 
         resultDenominator = this.denom.multiply(otherFraction.num);
-        resultNumerator = this.denom.multiply(otherFraction.denom);
+        resultNumerator = this.num.multiply(otherFraction.denom);
 
         return new BigFraction(resultNumerator, resultDenominator);
     }// divide(BigFraction)
@@ -218,7 +225,7 @@ public class BigFraction {
         BigInteger newNumerator = this.num;
         while (newNumerator.compareTo(this.denominator()) == 1) {
             newNumerator = this.num.subtract(this.denom);
-        }
+        }//itterate through until your denominator is greater than your numerator, making your num smaller by your denom each time
 
         return (new BigFraction(newNumerator, this.denom));
 
@@ -254,9 +261,13 @@ public class BigFraction {
         } // if it's zero
         this.simplify();
 
+        if (this.denom.equals(BigInteger.valueOf(1))){
+            return this.num.toString();
+        }
+
         // Lump together the string represention of the numerator,
         // a slash, and the string representation of the denominator
         // return this.num.toString().concat("/").concat(this.denom.toString());
-        return this.num + "/" + this.denom;
+        return this.num.toString() + "/" + this.denom.toString();
     } // toString()
 } // class BigFraction
