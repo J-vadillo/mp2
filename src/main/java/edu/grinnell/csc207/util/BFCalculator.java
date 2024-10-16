@@ -52,6 +52,9 @@ public class BFCalculator {
         return;
     }// add(BigFraction)
 
+
+
+
     /**
      * multipliplies a big fraction with  the last value
      * 

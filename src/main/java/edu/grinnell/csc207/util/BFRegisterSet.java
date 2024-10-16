@@ -1,5 +1,5 @@
 package edu.grinnell.csc207.util;
-// import java.math.BigInteger;
+import java.math.BigInteger;
 
 // import edu.grinnell.csc207.util.BigFraction;
 
@@ -14,10 +14,17 @@ public class BFRegisterSet {
     /** primary register, arrya of big fractions */
     BigFraction[] fullRegister; 
 
-    public BFRegisterSet(char register, BigFraction val) {
+    
+    /**
+     * makes a new regiter with no inputs
+     */
+    public BFRegisterSet() {
         this.fullRegister = new BigFraction[LENGTH_OF_ALPHABET];
+        for (int i = 0; i < LENGTH_OF_ALPHABET; i++){
+            this.fullRegister[i] = new BigFraction(BigInteger.valueOf(0));
+        }
         return;
-    }
+    }// BGRegiserSet()
 
     /**
      * function used to turn letters into their corresponding integers, only works
@@ -42,6 +49,8 @@ public class BFRegisterSet {
 
     public void store(char register, BigFraction val) {
         int address = letter2int(register);
+
+
         this.fullRegister[address] = val;
         return;
     }
